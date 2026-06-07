@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kola Revathi | Accessible Frontend Developer Portfolio</title>
+    
+    <meta name="description" content="Portfolio of Kola Revathi, a Frontend Developer specializing in semantic HTML, modern CSS, and WCAG-compliant dark theme configurations.">
+    <meta name="keywords" content="Frontend Developer, Web Accessibility, WCAG, Semantic HTML, Dark Theme Portfolio">
+    <meta name="author" content="Kola Revathi">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Kola Revathi | Accessible Frontend Developer">
+    <meta property="og:description" content="Explore semantic, accessible, and high-performance dark-theme web projects by Kola Revathi.">
+    <meta property="og:image" content="https://example.com/portfolio-preview.jpg">
+
+    <style>
+        /* --- CSS Custom Variables (Midnight Dark Theme) --- */
+        :root {
+            --bg-color: #0f172a;        /* Deep Slate Blue-Black */
+            --card-bg: #1e293b;         /* Lighter Slate for containers */
+            --text-main: #f8fafc;       /* Off-White for high contrast reading */
+            --text-muted: #94a3b8;      /* Soft gray for auxiliary text */
+            --primary-accent: #38bdf8;  /* Accessible Sky Blue (Passes AA/AAA against dark backgrounds) */
+            --secondary-accent: #0ea5e9;/* Darker Sky Blue for hover states */
+            --border-color: #334155;    /* Subtle separation lines */
+            --focus-ring: #f59e0b;      /* High contrast Amber for keyboard focus indicators */
+            --required-color: #f87171;  /* Soft Red for validation indicators */
+        }
+
+        /* --- CSS Reset & Base Layout --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Global Accessibility Utilities --- */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: var(--primary-accent);
+            color: #0f172a;
+            padding: 10px 20px;
+            z-index: 100;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 0 0 4px 0;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: 4px solid var(--focus-ring);
+        }
+
+        /* Interactive element global focus style */
+        *:focus-visible {
+            outline: 4px solid var(--focus-ring);
+            outline-offset: 3px;
+        }
+
+        /* --- Layout Structures --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        /* --- Global Structural Header --- */
+        .site-header {
+            background-color: #020617; /* Extra dark slate for visual depth */
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            color: var(--text-main);
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-decoration: none;
+            letter-spacing: -0.05em;
+        }
+
+        .logo span {
+            color: var(--primary-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-button:hover {
+            color: var(--text-main);
+            background-color: var(--border-color);
+        }
+
+        .nav-button.active {
+            color: #020617;
+            background-color: var(--primary-accent);
+        }
+
+        /* --- Main Content Area Architecture --- */
+        main {
+            flex-grow: 1;
+            outline: none; /* Handled gracefully by tabindex container rules */
+        }
+
+        /* Single Page Application Section Toggling Utility */
+        .portfolio-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        .portfolio-section.active-section {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- View 1: Home Page Aesthetics --- */
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--primary-accent);
+        }
+
+        .hero-subtext {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 35px auto;
+        }
+
+        .cta-button, .submit-button {
+            display: inline-block;
+            background-color: var(--primary-accent);
+            color: #020617;
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .cta-button:hover, .submit-button:hover {
+            background-color: var(--secondary-accent);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .section-intro {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--primary-accent);
+        }
+
+        .card p {
+            color: var(--text-muted);
+        }
+
+        /* --- View 2: Projects Showcase Layout --- */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 35px;
+            border-radius: 12px;
+        }
+
+        .project-card h2 {
+            font-size: 1.75rem;
+            margin-bottom: 8px;
+        }
+
+        .project-tech {
+            font-size: 0.95rem;
+            color: var(--primary-accent);
+            margin-bottom: 15px;
+            font-family: monospace;
+        }
+
+        .project-description {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn-secondary {
+            background-color: #334155;
+            color: var(--text-main);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        .btn-text {
+            color: var(--primary-accent);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .btn-text:hover {
+            color: var(--secondary-accent);
+        }
+
+        /* --- View 3: Form Controls & Inputs --- */
+        .form-container {
+            max-width: 650px;
+        }
+
+        .contact-form {
+            margin-top: 30px;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .required {
+            color: var(--required-color);
+            margin-left: 2px;
+        }
+
+        .form-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            background-color: #0f172a;
+            color: var(--text-main);
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-accent);
+            outline: none;
+        }
+
+        /* --- Global Structural Footer --- */
+        .site-footer {
+            background-color: #020617;
+            color: var(--text-muted);
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-accent);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header-container, .footer-container {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .hero h1 { font-size: 2.2rem; }
+            .contact-form { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="site-header">
+        <div class="header-container">
+            <a href="#" class="logo" onclick="navigateTo('home', this)" aria-label="Kola Revathi Portfolio Home Summary">KolaRevathi<span>.dev</span></a>
+            
+            <nav aria-label="Main Portfolio Navigation">
+                <ul class="nav-links">
+                    <li><button type="button" class="nav-button active" onclick="navigateTo('home', this)" aria-current="page">Home</button></li>
+                    <li><button type="button" class="nav-button" onclick="navigateTo('projects', this)">Projects</button></li>
+                    <li><button type="button" class="nav-button" onclick="navigateTo('contact', this)">Contact</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+        
+        <section id="home-view" class="portfolio-section active-section" aria-labelledby="hero-heading">
+            <div class="hero">
+                <div class="container">
+                    <h1 id="hero-heading">Designing Digital Spaces for <span>Everyone</span>.</h1>
+                    <p class="hero-subtext">Hi, I'm Kola Revathi. I engineering resilient frontend architectures specializing in strict semantic layout patterns, clean SEO structural engineering, and 100% compliant web accessible interfaces.</p>
+                    <button type="button" class="cta-button" onclick="document.querySelector('[onclick*=\'projects\']').click()" aria-label="Explore my engineering case files">View My Work</button>
+                </div>
+            </div>
+
+            <div class="container">
+                <h2 class="section-title" id="philosophy-heading">Core Engineering Principles</h2>
+                <p class="section-intro">Universal design patterns optimized for speed, discoverability, and clean human consumption.</p>
+                <div class="grid-3">
+                    <article class="card" aria-labelledby="card1-title">
+                        <h3 id="card1-title">Strict HTML5 Semantics</h3>
+                        <p>Leveraging native machine-readable tags cleanly mapping layouts directly to assistive technology nodes naturally without bloating code dependencies.</p>
+                    </article>
+                    <article class="card" aria-labelledby="card2-title">
+                        <h3 id="card2-title">WCAG 2.2 Compliance</h3>
+                        <p>Every element scales cleanly matching high contrast aspect requirements, explicit keyboard tab maps, and functional screen reader announcements.</p>
+                    </article>
+                    <article class="card" aria-labelledby="card3-title">
+                        <h3 id="card3-title">Adaptive Dark Themes</h3>
+                        <p>Engineered via responsive modern palettes minimizing retinal strain while remaining safe under variable user contrast accessibility modes.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects-view" class="portfolio-section" aria-labelledby="projects-title">
+            <div class="container">
+                <h1 id="projects-title" class="section-title">Case Architecture Logs</h1>
+                <p class="section-intro">Every build verified manually via screen reader and keyboard-only sequence execution sweeps.</p>
+                
+                <div class="projects-list">
+                    <article class="project-card" aria-labelledby="proj1-title">
+                        <h2 id="proj1-title">Accessible E-Commerce Node</h2>
+                        <p class="project-tech">Tech Stack: HTML5, CSS Grid, Vanilla JS, ARIA-Live Regions</p>
+                        <p class="project-description">A modular e-commerce store implementation containing fully functional search filters and dynamic item updates announced dynamically to screen readers using optimized ARIA live channels.</p>
+                        <div class="project-actions">
+                            <a href="#" class="btn-secondary" aria-label="Open running environment for Accessible E-Commerce Node">Live System Demo</a>
+                            <a href="#" class="btn-text" aria-label="View source repository files for Accessible E-Commerce Node">View Source Files</a>
+                        </div>
+                    </article>
+
+                    <article class="project-card" aria-labelledby="proj2-title">
+                        <h2 id="proj2-title">Data Analytics Dynamic Dashboard</h2>
+                        <p class="project-tech">Tech Stack: SVG Graphics, High-Contrast Themes, Accessible Screen Tables</p>
+                        <p class="project-description">A real-time metrics layout rendering nested visual SVG dashboard charts fully mapped onto companion hidden raw data matrix arrays for seamless blind user interaction.</p>
+                        <div class="project-actions">
+                            <a href="#" class="btn-secondary" aria-label="Open running environment for Data Analytics Dashboard">Live System Demo</a>
+                            <a href="#" class="btn-text" aria-label="View source repository files for Data Analytics Dashboard">View Source Files</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact-view" class="portfolio-section" aria-labelledby="contact-title">
+            <div class="container form-container">
+                <h1 id="contact-title" class="section-title">Initialize Engagement</h1>
+                <p class="section-intro" style="margin-bottom: 10px;">Have an integration request, web platform assessment requirements, or a project build? Drop a direct wire notification.</p>
+                
+                <form action="#" method="POST" class="contact-form" novalidate onsubmit="alert('Message simulation dispatched securely.'); return false;">
+                    
+                    <div class="form-group">
+                        <label for="form-name">Full Client Name <span class="required" aria-hidden="true">*</span></label>
+                        <input type="text" id="form-name" name="name" required aria-required="true" autocomplete="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-email">Direct Correspondence Email <span class="required" aria-hidden="true">*</span></label>
+                        <input type="email" id="form-email" name="email" required aria-required="true" autocomplete="email" aria-describedby="email-hint">
+                        <span id="email-hint" class="form-hint">Expected format schema: name@domain.com</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-subject">Subject Scope</label>
+                        <input type="text" id="form-subject" name="subject">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="form-message">Project Parameters / Transmission Text <span class="required" aria-hidden="true">*</span></label>
+                        <textarea id="form-message" name="message" rows="6" required aria-required="true"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-button">Dispatch Encrypted Message</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Alex Morgan. Built to flawless semantic structural compliance parameters.</p>
+            <ul class="social-links" aria-label="External Professional Target Networks">
+                <li><a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub Profile (Opens in new browser tab)">GitHub</a></li>
+                <li><a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn Profile (Opens in new browser tab)">LinkedIn</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        function navigateTo(targetViewId, elementClicked) {
+            // 1. Deselect all section panels gracefully
+            const sections = document.querySelectorAll('.portfolio-section');
+            sections.forEach(section => {
+                section.classList.remove('active-section');
+            });
+
+            // 2. Clear out historic tracking header settings
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.removeAttribute('aria-current');
+            });
+
+            // 3. Mount target context state view visible online
+            const activeSection = document.getElementById(`${targetViewId}-view`);
+            if (activeSection) {
+                activeSection.classList.add('active-section');
+            }
+
+            // 4. Update structural focus mappings cleanly on interacting elements
+            if (elementClicked && elementClicked.classList.contains('nav-button')) {
+                elementClicked.classList.add('active');
+                elementClicked.setAttribute('aria-current', 'page');
+            }
+
+            // 5. Shift native runtime focus straight into root viewport bounds to guarantee immediate screen reader parsing updates
+            const focusTarget = document.getElementById('main-content');
+            focusTarget.focus();
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
